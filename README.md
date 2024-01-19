@@ -1,80 +1,40 @@
-
 # AWS 3 Tier Web Architecture
 
-Hosting a 3 tier Web Application in AWS 
+## Overview:
+In the AWS 3 Tier Web Architecture, we deploy a robust and scalable web application utilizing Amazon Web Services. The architecture comprises three tiers: web, application, and database. The application load balancer manages traffic, routing it through EC2 instances in the web tier, then to the application tier, and finally interacting with an Aurora MySQL multi-AZ database.
 
-### Architecture Overview
+### 1. Architecture Overview:
+![3-Tier Architecture](https://github.com/sunilkurthakoti/AWS_3tier_web_architecture/assets/131526336/fd09b3f6-f07f-487c-ba5d-2f9a038a7ef8)
 
-![3TierArch](https://github.com/sunilkurthakoti/AWS_3tier_web_architecture/assets/131526336/fd09b3f6-f07f-487c-ba5d-2f9a038a7ef8)
+This diagram illustrates the flow of client traffic through an Application Load Balancer to Nginx webservers in the web tier, Node.js application servers in the application tier, and finally, to an Aurora MySQL database. Load balancing, health checks, and autoscaling groups are implemented at each layer for enhanced availability.
 
-In this architecture, a public-facing Application Load Balancer forwards client traffic to our web tier EC2 instances. The web tier is running Nginx webservers that are configured to serve a React.js website and redirects our API calls to the application tier’s internal facing load balancer. The internal facing load balancer then forwards that traffic to the application tier, which is written in Node.js. The application tier manipulates data in an Aurora MySQL multi-AZ database and returns it to our web tier. Load balancing, health checks and autoscaling groups are created at each layer to maintain the availability of this architecture.
+### 2. VPC and Networking Configuration:
+![VPC and Networking](https://github.com/sunilkurthakoti/AWS_3tier_web_architecture/assets/131526336/126942ce-60fd-496c-a6d3-0fcfca55dc84)
 
+The VPC and networking components are configured to establish a secure and isolated network. This includes the creation of a VPC, subnets, route tables, internet gateway, NAT gateway, and security groups for EC2 instances, Aurora databases, and Elastic Load Balancers.
 
-### VPC and Networking Configuration :
-![Screenshot (223)](https://github.com/sunilkurthakoti/AWS_3tier_web_architecture/assets/131526336/126942ce-60fd-496c-a6d3-0fcfca55dc84)
+### 3. S3 Bucket Setup and File Upload:
+![S3 Bucket](https://github.com/sunilkurthakoti/AWS_3tier_web_architecture/assets/131526336/2618b914-b758-4aed-ad12-d0157e64f75a)
 
- we will build the VPC networking components and security groups to enhance the security of our infrastructure, including EC2 instances, Aurora databases, and Elastic Load Balancers.
+An S3 bucket is created to store and manage static files. The architecture involves uploading essential files to this bucket for use in the web application.
 
-Creating an isolated network with the following components:<br/>
+### 4. RDS Configuration:
+![RDS Configuration](https://github.com/sunilkurthakoti/AWS_3tier_web_architecture/assets/131526336/895f1519-f0e2-453c-9e0f-7eb4f71d521b)
 
-* VPC  <br/>
-* Subnets  <br/>
-* Route Tables  <br/>
-* Internet Gateway  <br/>
-* NAT Gateway  <br/>
-* Security Groups  <br/>
+The database layer is configured using Aurora MySQL. This section involves creating an EC2 instance for the app layer, configuring the software stack, and setting up the database schema.
 
-### creating S3 Bucket and uploading the files
-![Screenshot (227)](https://github.com/sunilkurthakoti/AWS_3tier_web_architecture/assets/131526336/2618b914-b758-4aed-ad12-d0157e64f75a)
+### 5. Autoscaling and Load Balancing (App Tier):
+In this phase, an Amazon Machine Image (AMI) is created for the app tier instance, enabling autoscaling and load balancing. This ensures high availability of the application.
 
-### RDS Configuration :
-![Screenshot (224)](https://github.com/sunilkurthakoti/AWS_3tier_web_architecture/assets/131526336/895f1519-f0e2-453c-9e0f-7eb4f71d521b)
+### 6. Web Tier Configuration:
+An EC2 instance for the web tier is deployed, involving necessary software configurations for NGINX web server and React.js website.
 
-In this section of our workshop we will create an EC2 instance for our app layer and make all necessary software configurations so that the app can run. The app layer consists of a Node.js application that will run on port 4000. We will also configure our database with some data and tables.
+### 7. Autoscaling and Load Balancing (Web Tier):
+Similar to the app tier, an AMI of the web tier instance is created to establish autoscaling and load balancing for high availability.
 
-Learning Objectives:
-Create App Tier Instance
-Configure Software Stack
-Configure Database Schema
-Test DB connectivity
+### 8. Output Screenshots:
+![Output Screenshot 1](https://github.com/sunilkurthakoti/AWS_3tier_web_architecture/assets/131526336/03c6ace8-8444-4a3d-bf7f-25143bd52a31)
 
-ec2
+![Output Screenshot 2](https://github.com/sunilkurthakoti/AWS_3tier_web_architecture/assets/131526336/d48cce72-c3f6-4f62-9a94-c6c3594b1b0b)
 
-In this section of the workshop we will create an Amazon Machine Image (AMI) of the app tier instance we just created, and use that to set up autoscaling with a load balancer in order to make this tier highly available.
-
-Learning Objectives:
-Create an AMI of our App Tier
-Create a Launch Template
-Configure Autoscaling
-Deploy Internal Load Balancer
-
-In this section we will deploy an EC2 instance for the web tier and make all necessary software configurations for the NGINX web server and React.js website.
-
-Learning Objectives
-Update NGINX Configuration Files
-Create Web Tier Instance
-Configure Software Stack
-
-
-In this section of the workshop we will create an Amazon Machine Image (AMI) of the web tier instance we just created, and use that to set up autoscaling with an external facing load balancer in order to make this tier highly available.
-
-Learning Objectives:
-Create an AMI of our Web Tier
-Create a Launch Template
-Configure Auto Scaling
-Deploy External Load Balancer
-
-
-
-
-
-
-
-
-
-
-### Output Screenshots :
-
-![Screenshot (228)](https://github.com/sunilkurthakoti/AWS_3tier_web_architecture/assets/131526336/03c6ace8-8444-4a3d-bf7f-25143bd52a31)
-
-![Screenshot (230)](https://github.com/sunilkurthakoti/AWS_3tier_web_architecture/assets/131526336/d48cce72-c3f6-4f62-9a94-c6c3594b1b0b)
+This architecture demonstrates a comprehensive and scalable approach to hosting a 3-tier web application on AWS, ensuring high availability, efficient load balancing, and secure networking configurations.
